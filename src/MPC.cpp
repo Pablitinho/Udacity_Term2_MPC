@@ -3,10 +3,20 @@
 #include <cppad/ipopt/solve.hpp>
 #include "Eigen-3.3/Eigen/Core"
 
+// Weights for COST FUNCTION
+#define W_CTE 4000
+#define W_EPSI 4000
+#define W_V 2
+#define W_DELTA 5
+#define W_A 5
+#define W_D_V 800
+#define W_DDELTA 200
+#define W_DA 10
+
 using CppAD::AD;
 
 // TODO: Set the timestep length and duration
-size_t N = 20 ;
+size_t N = 15 ;
 double dt = 0.1 ;
 
 // This value assumes the model presented in the classroom is used.
@@ -22,7 +32,7 @@ double dt = 0.1 ;
 const double Lf = 2.67;
 // NOTE: feel free to play around with this
 // or do something completely different
-double ref_v = 70;
+double ref_v = 80;
 
 // The solver takes all the state variables and actuator
 // variables in a singular vector. Thus, we should to establish
@@ -52,45 +62,26 @@ class FG_eval {
     // Reference State Cost
     // TODO: Define the cost related the reference state and
     // any anything you think may be beneficial.
-    /*for (size_t i=0;i<N;i++)
+    for (size_t i=0;i<N;i++)
     {
-       fg[0] += CppAD::pow(vars[cte_start + i], 2);
-       fg[0] += CppAD::pow(vars[epsi_start + i], 2);
-       fg[0] += CppAD::pow(vars[v_start + i] - ref_v, 2);
+      fg[0] += W_CTE*CppAD::pow(vars[cte_start + i], 2);
+      fg[0] += W_EPSI*CppAD::pow(vars[epsi_start + i], 2);
+      fg[0] += W_V*CppAD::pow(vars[v_start + i] - ref_v, 2);
     }
     // Minimize change-rate.
     for (size_t i = 0; i < N - 1; i++)
     {
-       fg[0] += CppAD::pow(vars[delta_start + i], 2);
-       fg[0] += CppAD::pow(vars[a_start + i], 2);
+      fg[0] += W_DELTA*CppAD::pow(vars[delta_start + i], 2);
+      fg[0] += W_A*CppAD::pow(vars[a_start + i], 2);
+      fg[0] += W_D_V*CppAD::pow(vars[delta_start + i] * vars[v_start+i], 2);
     }
     // Minimize the value gap between sequential actuations.
-    for (size_t t = 0; t < N - 2; t++) 
-    {
-      fg[0] += 100*CppAD::pow(vars[delta_start + t + 1] - vars[delta_start + t], 2);
-      fg[0] += 100*CppAD::pow(vars[a_start + t + 1] - vars[a_start + t], 2);
-    }*/
-    //-------------------------------------------------------------------------------
-    for (size_t i = 0; i < N; i++) 
-    {
-      fg[0] += 3000*CppAD::pow(vars[cte_start + i], 2);
-      fg[0] += 3000*CppAD::pow(vars[epsi_start + i], 2);
-      fg[0] += CppAD::pow(vars[v_start + i] - ref_v, 2);
-    }
-
-    for (size_t i = 0; i < N - 1; i++)
-     {
-      fg[0] += 5*CppAD::pow(vars[delta_start + i], 2);
-      fg[0] += 5*CppAD::pow(vars[a_start + i], 2);
-      // try adding penalty for speed + steer
-      fg[0] += 700*CppAD::pow(vars[delta_start + i] * vars[v_start+i], 2);
-    }
-
     for (size_t i = 0; i < N - 2; i++) 
     {
-      fg[0] += 200*CppAD::pow(vars[delta_start + i + 1] - vars[delta_start + i], 2);
-      fg[0] += 10*CppAD::pow(vars[a_start + i + 1] - vars[a_start + i], 2);
+      fg[0] += W_DDELTA*CppAD::pow(vars[delta_start + i + 1] - vars[delta_start + i], 2);
+      fg[0] += W_DA*CppAD::pow(vars[a_start + i + 1] - vars[a_start + i], 2);
     }
+    //-------------------------------------------------------------------------------
     //
     // Setup Constraints
     //
