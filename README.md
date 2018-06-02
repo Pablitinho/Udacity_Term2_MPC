@@ -9,6 +9,7 @@ Model predictive control is a well know method used in the industry. It is an ad
 The used model is the described by the image below:
 
 ![Model](./model.png)
+
 Figure 1. Kinematic model and cte and steering error of our system.
 
 This model is called "Kinematic model" and it is a simplification of the dynamic model of the car. Where we have the x,y position of the car, the heading of car (psi), velocity (v) the error of the cross-track (cte) and the orientation error (epsi) 
@@ -20,6 +21,7 @@ The prediction of the MPC are the outputs of our system and determinate the stee
 The figure below illustrate the description of the whole system.
 
 ![MPC_Model](./MPC.png)
+
 Figure 2. Full description of the system
 
 ## Timestep Length and Elapsed Duration (N & dt)
