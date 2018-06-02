@@ -1,17 +1,34 @@
 # CarND-Controls-MPC
 Self-Driving Car Engineer Nanodegree Program
 
+# MPC
+Model predictive control is a well know method used in the industry. It is an advanced method of process control that predict the changes of the variables that belong to the system.
 ---
-## Model 
+# Model Description
 
+The used model is the described by the image below:
 
 ![Model](./model.png)
+Figure 1. Kinematic model and cte and steering error of our system.
+
+This model is called "Kinematic model" and it is a simplification of the dynamic model of the car. Where we have the x,y position of the car, the heading of car (psi), velocity (v) the error of the cross-track (cte) and the orientation error (epsi) 
+
+The vehicle model is one of the components that we need to modelate the controler. Other component is the trajectory, this component describe the path of the vehicle giving N steps with a delta time (dt).
+ 
+The prediction of the MPC are the outputs of our system and determinate the steering angle and the Throttle that must be applied to the car in order to minimize the error. This error is determinated by the cost function that we try to minimize by mean of the solver. Finally we have constrains in our system and belong to the max and min value of the output of the system, i.e., steering and throttle.
+
+The figure below illustrate the description of the whole system.
+
+![MPC_Model](./MPC.png)
+Figure 2. Full description of the system
 
 ## Timestep Length and Elapsed Duration (N & dt)
 
 ## Polynomial Fitting and MPC Preprocessing
 
 ## Model Predictive Control with Latency
+
+
 
 ## Dependencies
 
