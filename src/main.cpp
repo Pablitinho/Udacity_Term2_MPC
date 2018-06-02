@@ -108,7 +108,7 @@ int main() {
           Eigen::VectorXd ptsx_vcs(ptsx.size());
           Eigen::VectorXd ptsy_vcs(ptsy.size());
           
-          // Transform the points to the vehicle's orientation
+          // Transform the points to the vehicle coordinate system
           double cos_psi = cos(-psi);
           double sin_psi = sin(-psi);
           for (uint i = 0; i < ptsx.size(); i++) 

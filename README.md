@@ -2,7 +2,9 @@
 Self-Driving Car Engineer Nanodegree Program
 
 # MPC
+
 Model predictive control is a well know method used in the industry. It is an advanced method of process control that predict the changes of the variables that belong to the system.
+
 ---
 # Model Description
 
@@ -26,12 +28,19 @@ Figure 2. Full description of the system
 
 ## Timestep Length and Elapsed Duration (N & dt)
 
+In order to determinate the prediction horizon T = N*dt we must take into account some factors. The first one is that we do not need long values of T due in real world the reaction is done in a short time. The value of the number of time steps N, must be small in our case should have a value in the range of 10-15 with a delta time dt of 0.1. In this case we will have a prediction horizon of 1-1.5 seconds. It is important to remark that the when we increase the number of timesteps the performance of the system decrease drastically.  
+
 ## Polynomial Fitting and MPC Preprocessing
+
+In order to generate the polynomial, it is needed transform from World Coordinate System (WCS) to Vehicle Coordinate System (VCS). This is done by subtracting the vehicle position and rotating according to the heading of the car. Once we have this transformation we can apply the polynomial fitting of 3th degree by mean of the function polyfit(). 
+
+Due we are working in VCS we have 0º in the heading (psi) and x and y are 0. We must take this into account in order to estimate the prediction of the state (Figure 1).
+
 
 ## Model Predictive Control with Latency
 
-
-
+In order to simulate a real conditions in a car, a delay of 100 ms is included before sending the JSON message. In this case we simulate a delay in real circumstances with the recieved data and the actuators. 
+ 
 ## Dependencies
 
 * cmake >= 3.5
