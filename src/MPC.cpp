@@ -3,15 +3,6 @@
 #include <cppad/ipopt/solve.hpp>
 #include "Eigen-3.3/Eigen/Core"
 
-// Weights for COST FUNCTION
-#define W_CTE 4000
-#define W_EPSI 4000
-#define W_V 2
-#define W_DELTA 5
-#define W_A 5
-#define W_D_V 800
-#define W_DDELTA 200
-#define W_DA 10
 
 using CppAD::AD;
 

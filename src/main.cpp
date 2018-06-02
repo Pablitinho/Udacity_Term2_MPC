@@ -94,7 +94,10 @@ int main() {
           double v = j[1]["speed"];
           double delta = j[1]["steering_angle"];
           double a = j[1]["throttle"];
-
+          cout<<"vel: "<<v<<" Acel: "<<a <<endl;
+          // Km/h->m/s
+         //v = v*0.277777;
+         // a = a*0.277777;
           /*
           * TODO: Calculate steering angle and throttle using MPC.
           *
@@ -141,7 +144,7 @@ int main() {
           double pred_psi = 0.0 +  v * -delta / Lf * dt;
           double pred_v = v + a * dt;
           double pred_cte = cte + v * sin(epsi) * dt;
-          double pred_epsi = epsi + v * -delta / Lf * dt;
+          double pred_epsi = -epsi + v * delta / Lf * dt;
           // Feed in the predicted state values
           Eigen::VectorXd state(6);
           state << pred_px, pred_py, pred_psi, pred_v, pred_cte, pred_epsi;
